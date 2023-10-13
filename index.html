@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Geld zähler</title>
+</head>
+<body>
+	<h1>Geldzähler</h1>
+	<table id="my_table">
+		
+	</table>
+	<p>Total: <span id="total"></span></p>
+	<hr>
+	<button onclick="deleteAll()">LÖSCHEN</button>
+	<script type="text/javascript">
+	let mony = [
+		0.01,
+		0.02,
+		0.10,
+		0.20,
+		0.50,
+		1.00,
+		2.00,
+		5.00,
+		10.00,
+		20.00,
+		50.00,
+		100.00
+	];
+
+	let results = [];
+
+
+	let table = document.getElementById("my_table");
+	
+	mony.forEach((amount,i)=>{
+		let cssClass = amount.toString().replace(".","_");
+		console.log("cssClass",cssClass);
+		let tr = document.createElement("tr");
+		let td = document.createElement("td");
+		let tdInput = document.createElement("td");
+		let input = document.createElement("input");
+		input.classList.add("input");
+		let tdResult = document.createElement("td");
+		input.addEventListener("keyup",(v)=>{
+			console.log(v);
+			console.log(input.value);
+			console.log("amount",amount);
+			let selectedResult = document.getElementById(cssClass + "_result");
+			let result = (input.value * amount).toFixed(2);
+			results[i] = result;
+			selectedResult.innerHTML =  result;
+			calculateAll();
+		})
+		tdInput.appendChild(input);
+		td.appendChild(document.createTextNode(amount));
+		tdResult.setAttribute("id",cssClass + "_result");
+		tdResult.appendChild(document.createTextNode("0"));
+		tdResult.classList.add("result");
+		tr.appendChild(td);
+		tr.appendChild(tdInput);
+		tr.appendChild(tdResult)
+		table.appendChild(tr);
+	});
+
+	function calculateAll(){
+		let sum = 0;
+		results.forEach(r=>{
+			sum = sum + r*1;
+		});
+		document.getElementById("total").innerHTML = sum;
+	}
+	function deleteAll(){
+		results = [];
+		let inputElements = document.getElementsByClassName("input");
+		for (let i = 0; i < inputElements.length; i++) {
+			inputElements[i].value = "";
+		}
+
+		let resultElements = document.getElementsByClassName("result");
+		for (let i = 0; i < resultElements.length; i++) {
+			resultElements[i].innerHTML = "0";
+		}
+		document.getElementById("total").innerHTML = "0";
+	}
+</script>
+</body>
+</html>
