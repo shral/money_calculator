@@ -4,13 +4,25 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Geld zähler</title>
+	<style>
+		input{
+			width:60px;
+		}
+		td{
+			text-align: right;
+		}
+	</style>
 </head>
 <body>
 	<h1>Geldzähler</h1>
-	<table id="my_table">
-		
-	</table>
 	<p>Total: <span id="total"></span></p>
+	<hr>
+	<table id="my_table">
+		<tr>
+			<td colspan="2">Rollen: </td>
+			<td><input type="text" id="rollen" onkeyup="calculateAll()"></td>
+		</tr>
+	</table>
 	<hr>
 	<button onclick="deleteAll()">LÖSCHEN</button>
 	<script type="text/javascript">
@@ -47,7 +59,7 @@
 			console.log(v);
 			console.log(input.value);
 			console.log("amount",amount);
-			let selectedResult = document.getElementById(cssClass + "_result");
+			const selectedResult = document.getElementById(cssClass + "_result");
 			let result = (input.value * amount).toFixed(2);
 			results[i] = result;
 			selectedResult.innerHTML =  result;
@@ -69,7 +81,8 @@
 		results.forEach(r=>{
 			sum = sum + r*1;
 		});
-		document.getElementById("total").innerHTML = sum;
+		const rollen = document.getElementById("rollen").value;
+		document.getElementById("total").innerHTML = (sum + (rollen*1)).toFixed(2);
 	}
 	function deleteAll(){
 		results = [];
@@ -82,6 +95,7 @@
 		for (let i = 0; i < resultElements.length; i++) {
 			resultElements[i].innerHTML = "0";
 		}
+		document.getElementById("rollen").value = "";
 		document.getElementById("total").innerHTML = "0";
 	}
 </script>
